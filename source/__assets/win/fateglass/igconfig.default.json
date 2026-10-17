@@ -60,7 +60,7 @@
   "CacheMaxMemoryInMb": 1000,
   "CacheMaxFileSizeInMb": 100,
   "CacheMaxDimension": 8000,
-  "ZoomLockValue": 39.0625,
+  "ZoomLockValue": 100,
   "ToolbarIconHeight": 24,
   "ImageEditQuality": 80,
   "InAppMessageDuration": 2000,
@@ -78,10 +78,10 @@
   "ImageLoadingOrderType": "Asc",
   "ZoomMode": "ScaleToFit",
   "ImageInterpolationScaleDown": "LinearMipmapNearest",
-  "ImageInterpolationScaleUp": "Anisotropic",
+  "ImageInterpolationScaleUp": "Linear",
   "AfterEditingAction": 0,
   "WindowBackdrop": "Mica",
-  "MainWindowBounds": "1258;164;1256;892",
+  "MainWindowBounds": "902;629;1256;892",
   "SettingsWindowBounds": "-1425;883;1256;893",
   "ZoomLevels": "",
   "EditApps": {},
@@ -265,6 +265,20 @@
       }
     },
     {
+      "Id": "Btn_LockZoom",
+      "Image": "LockZoom",
+      "Text": "Menu_MnuLockZoom",
+      "ShowText": false,
+      "ConfigBinding": "ZoomMode",
+      "ConfigBindingValue": "LockZoom",
+      "Alignment": "Left",
+      "OnClick": {
+        "Hotkeys": [],
+        "Executable": "IG_SetZoomMode",
+        "Argument": "LockZoom"
+      }
+    },
+    {
       "Id": "Btn_Gallery",
       "Image": "Gallery",
       "Text": "Menu_MnuToggleGallery",
@@ -343,5 +357,16 @@
         "Argument": ""
       }
     }
-  ]
+  ],
+  "EnablePrintWindowMaximized": false,
+  "EnableAutoInstallUpdate": false,
+  "SlideshowTransitionDuration": 1000,
+  "NavigationTransitionDuration": 300,
+  "CacheMaxFiles": 10,
+  "BackgroundColor": "#070B1Aee",
+  "SlideshowTransition": "None",
+  "NavigationTransition": "None",
+  "ViewerScrollbarMode": "AutoHide",
+  "ImageInfoOverlayMode": "BorderlessAutoHide",
+  "PrintWindowBounds": "200;200;1000;680"
 }

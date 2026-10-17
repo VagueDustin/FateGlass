@@ -1416,6 +1416,18 @@ public partial class AppAPIProvider
     /// </summary>
     public static void IG_SetZoomMode(ZoomMode mode)
     {
+        // personal build: Lock zoom is a toggle; a second press unlocks back to the previous mode
+        if (mode == ZoomMode.LockZoom)
+        {
+            if (Core.Config.ZoomMode == ZoomMode.LockZoom)
+            {
+                Core.Config.ZoomMode = _zoomModeBeforeLock;
+                return;
+            }
+
+            _zoomModeBeforeLock = Core.Config.ZoomMode;
+        }
+
         if (mode == Core.Config.ZoomMode)
         {
             IG_Refresh();
@@ -1425,6 +1437,9 @@ public partial class AppAPIProvider
             Core.Config.ZoomMode = mode;
         }
     }
+
+    // shortcut: not persisted, so a lock restored at startup unlocks to ScaleToFit; store it if that matters
+    private static ZoomMode _zoomModeBeforeLock = ZoomMode.ScaleToFit;
 
 
     /// <summary>
