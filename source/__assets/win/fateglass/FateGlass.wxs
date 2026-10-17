@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  FateGlass installer, x64, per-machine, into Program Files\VagueDustin Enterprises\FateGlass.
+  Its own UpgradeCode, so it never touches an installed ImageGlass.
+  Built by build-fateglass.ps1, which passes PayloadDir and ProductVersion.
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="FateGlass"
+           Manufacturer="VagueDustin Enterprises"
+           Version="$(var.ProductVersion)"
+           UpgradeCode="F54E92AF-1243-4104-9F92-E2E10EDBC216"
+           Scope="perMachine"
+           Compressed="yes">
+
+    <!-- same-version upgrades too: local rebuilds keep the 10.0.6 prefix -->
+    <MajorUpgrade AllowSameVersionUpgrades="yes"
+                  DowngradeErrorMessage="A newer FateGlass is already installed." />
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+
+    <Icon Id="FateGlassIcon" SourceFile="$(sys.SOURCEFILEDIR)..\..\..\ImageGlass.Win32\icon256.ico" />
+    <Property Id="ARPPRODUCTICON" Value="FateGlassIcon" />
+    <Property Id="ARPURLINFOABOUT" Value="https://github.com/VagueDustin" />
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="VendorFolder" Name="VagueDustin Enterprises">
+        <Directory Id="INSTALLFOLDER" Name="FateGlass" />
+      </Directory>
+    </StandardDirectory>
+
+    <ComponentGroup Id="Payload" Directory="INSTALLFOLDER">
+      <!-- authored by hand because the uninstall CustomAction needs it as a FileRef -->
+      <Component Id="CmpFateGlassExe" Guid="A05E5E8D-C419-460C-AC2D-5355DCA67CB2">
+        <File Id="FileFateGlassExe" Source="$(var.PayloadDir)\FateGlass.exe" KeyPath="yes" />
+      </Component>
+      <Files Include="$(var.PayloadDir)\**">
+        <Exclude Files="$(var.PayloadDir)\FateGlass.exe" />
+      </Files>
+    </ComponentGroup>
+
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Component Id="CmpStartMenuShortcut" Guid="BDC4755D-F852-4BC6-8E7E-D92D493F7165">
+        <Shortcut Id="ScStartMenu" Name="FateGlass" Description="Photo viewer"
+                  Target="[INSTALLFOLDER]FateGlass.exe" WorkingDirectory="INSTALLFOLDER" />
+        <RegistryValue Root="HKLM" Key="Software\VagueDustin Enterprises\FateGlass"
+                       Name="StartMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </StandardDirectory>
+
+    <Feature Id="Main">
+      <ComponentGroupRef Id="Payload" />
+      <ComponentRef Id="CmpStartMenuShortcut" />
+    </Feature>
+
+    <!-- must match AppCmds.REMOVE_DEFAULT_PHOTO_VIEWER exactly, or it launches the GUI as SYSTEM -->
+    <CustomAction Id="RemoveDefaultViewer" FileRef="FileFateGlassExe"
+                  ExeCommand="--ig-remove-default-viewer"
+                  Execute="deferred" Impersonate="no" Return="ignore" />
+
+    <InstallExecuteSequence>
+      <!-- not on upgrade, or every reinstall would strip the associations -->
+      <Custom Action="RemoveDefaultViewer" Before="RemoveFiles"
+              Condition="REMOVE=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE" />
+    </InstallExecuteSequence>
+  </Package>
+</Wix>

@@ -42,8 +42,8 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>icon256.ico</ApplicationIcon>
-    <AssemblyName>ImageGlass</AssemblyName>
-    <AssemblyTitle>ImageGlass $(Version)</AssemblyTitle>
+    <AssemblyName>FateGlass</AssemblyName>
+    <AssemblyTitle>FateGlass $(Version)</AssemblyTitle>
     <PublishAot>True</PublishAot>
     <AnalysisLevel>latest</AnalysisLevel>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>

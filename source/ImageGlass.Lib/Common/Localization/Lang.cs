@@ -262,6 +262,9 @@ public class Lang
         }
 
 
+        // rebrand every language pack at lookup time instead of editing each pack
+        value = value.Replace("ImageGlass", BHelper.AppName, StringComparison.Ordinal);
+
         // 3. if value has arguments, return the formatted string
         if (args.Length > 0)
         {
