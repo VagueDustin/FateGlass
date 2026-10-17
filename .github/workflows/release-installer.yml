@@ -1,0 +1,72 @@
+name: Build installer
+
+# Publishing a release builds the FateGlass MSI and attaches it to that release.
+# "Run workflow" on the Actions tab makes a test build, kept as a workflow artifact.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to stamp (e.g. 10.0.7). Empty uses Directory.Build.props."
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: installer-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install WiX 5.0.2
+        shell: pwsh
+        run: |
+          dotnet tool install --global wix --version 5.0.2
+          "$env:USERPROFILE\.dotnet\tools" >> $env:GITHUB_PATH
+
+      # a tag like v10.0.7 sets the version; any other tag keeps the one in Directory.Build.props
+      - name: Pick version
+        id: ver
+        shell: pwsh
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          $v = if ($env:INPUT_VERSION) { $env:INPUT_VERSION } else { $env:TAG -replace '^[vV]', '' }
+          if ($v -notmatch '^\d+\.\d+\.\d+(\.\d+)?$') { $v = '' }
+          "version=$v" >> $env:GITHUB_OUTPUT
+          Write-Host "Version: $(if ($v) { $v } else { 'from Directory.Build.props' })"
+
+      # Native AOT: hosted runners have the Visual Studio C++ tools it needs
+      - name: Build installer
+        shell: pwsh
+        env:
+          VERSION: ${{ steps.ver.outputs.version }}
+        run: ./source/__assets/win/fateglass/build-fateglass.ps1 -Aot -NoSettingsSync -Version $env:VERSION
+
+      - name: Keep installer as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FateGlass-installer
+          path: source/__artifacts/bundle/*.msi
+          if-no-files-found: error
+
+      - name: Attach installer to release
+        if: github.event_name == 'release'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload $env:TAG (Get-ChildItem source/__artifacts/bundle/*.msi).FullName --clobber

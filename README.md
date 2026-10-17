@@ -1,137 +1,319 @@
 <div align="center">
 
-# 🖼️ ImageGlass
+<img src="source/ImageGlass.Win32/fateglass-icon.svg" width="128" height="128" alt="FateGlass logo" />
 
-### A Fast, Seamless Photo Viewer
+# FateGlass
 
-ImageGlass is a fast, modern, open-source image viewer built for Windows, macOS, and Linux. Designed for speed and efficiency, it delivers a smooth, immersive viewing experience by combining high-performance rendering with powerful tools for both everyday users and designers. ImageGlass provides seamless, quick navigation across 90+ image formats, including `WEBP`, `JXL`, `SVG`, `HEIC`, `AVIF`, `HDR`, and raw images.
+**A fast photo viewer for Windows, every feature switched on and nothing phoning home.**
+<br/>
+Every image you open, held in the light a moment longer.
 
 <br/>
 
-[![Total downloads](https://img.shields.io/github/downloads/d2phap/imageglass/total?color=%23d60068&label=Total%20downloads&)](https://imageglass.org/pricing)
-[![Latest version downloads](https://img.shields.io/github/downloads/d2phap/imageglass/latest/total?color=%23e66700&label=Latest%20version&)](https://imageglass.org/pricing)
+[![Download the installer](https://img.shields.io/badge/Download-Installer-D4AF37?style=for-the-badge&logo=windows&logoColor=D4AF37&labelColor=070B1A)](../../releases/latest)
+[![All releases](https://img.shields.io/badge/All-Releases-D4AF37?style=for-the-badge&logo=github&logoColor=D4AF37&labelColor=070B1A)](../../releases)
+[![Build installer workflow](https://img.shields.io/badge/Build-Installer-D4AF37?style=for-the-badge&logo=githubactions&logoColor=D4AF37&labelColor=070B1A)](../../actions/workflows/release-installer.yml)
 
-[![Discord](https://img.shields.io/discord/818852544859209748?label=chat&logo=discord&color=%233097B8&style=social)](https://discord.gg/tWjbynH2X8)
-[![Twitter Follow](https://img.shields.io/twitter/follow/duongdieuphap?style=social)](https://twitter.com/duongdieuphap)
-[![Crowdin](https://d322cqt584bo4o.cloudfront.net/imageglass/localized.svg)](https://crowdin.com/project/imageglass)
-
-<br/>
-
-[**🌐 Website**](https://imageglass.org) &nbsp;•&nbsp;
-[**📥 Pricing**](https://imageglass.org/pricing) &nbsp;•&nbsp;
-[**📚 Docs**](https://imageglass.org/docs) &nbsp;•&nbsp;
-[**💬 Discord**](https://discord.gg/tWjbynH2X8) &nbsp;•&nbsp;
-[**💖 Donate**](https://imageglass.org/donate)
+[![Windows 10 and 11 x64](https://img.shields.io/badge/Windows-10%20%7C%2011%20x64-283860?style=flat-square&labelColor=070B1A)](#install)
+[![.NET 10](https://img.shields.io/badge/.NET-10-283860?style=flat-square&labelColor=070B1A)](#build-from-source)
+[![Avalonia 12](https://img.shields.io/badge/Avalonia-12-283860?style=flat-square&labelColor=070B1A)](#how-it-is-built)
+[![13 themes](https://img.shields.io/badge/Themes-13-283860?style=flat-square&labelColor=070B1A)](#themes)
+[![License GPLv3](https://img.shields.io/badge/License-GPLv3-283860?style=flat-square&labelColor=070B1A)](LICENSE)
+[![Based on ImageGlass](https://img.shields.io/badge/Based%20on-ImageGlass%2010-283860?style=flat-square&labelColor=070B1A)](#credits-and-license)
 
 <br/>
 
-[![ImageGlass 10](https://github.com/user-attachments/assets/ca49c1be-4ab6-4714-b23b-8b094b5eda90)](https://imageglass.org/news/introducing-imageglass-10-rebuilt-for-speed-and-cross-platform-support-107)
+[Install](#install) &nbsp;·&nbsp;
+[What is different](#what-is-different-from-imageglass) &nbsp;·&nbsp;
+[Themes](#themes) &nbsp;·&nbsp;
+[Lock zoom](#lock-zoom) &nbsp;·&nbsp;
+[Settings](#settings-and-defaults) &nbsp;·&nbsp;
+[Build](#build-from-source) &nbsp;·&nbsp;
+[Release](#make-a-release)
 
 </div>
 
 <br/>
 
+FateGlass is a personal build of [ImageGlass 10](#credits-and-license), the open source image viewer, rebranded for
+VagueDustin Enterprises. It opens 90+ formats (WEBP, JXL, AVIF, HEIC, SVG, HDR, PSD and camera raw among them),
+browses folders quickly, and stays out of the way of the picture. This build turns on every feature the upstream
+project reserves for paid licenses, removes the update check and its usage statistics, and ships with a navy and
+gold look, 12 more themes and its owner's settings as the defaults.
+
+This repository is private and the build is for personal use.
+
+---
+
+## Install
+
+1. Open the [latest release](../../releases/latest) and download `FateGlass_<version>_win-x64.msi`.
+2. Run it and approve the Windows prompt. It installs for all users to:
+
+   ```
+   C:\Program Files\VagueDustin Enterprises\FateGlass
+   ```
+
+3. Start **FateGlass** from the Start menu.
+
+Installing a newer release upgrades in place. To remove it, use **Settings > Apps > Installed apps > FateGlass >
+Uninstall**; that also clears any file type associations FateGlass registered.
+
+FateGlass runs side by side with an installed ImageGlass. It has its own name, settings folder, file type
+registrations and single-instance lock, so neither app touches the other.
+
+> **Windows SmartScreen.** The installer is not code signed, so Windows may show "Windows protected your PC" the
+> first time. Choose **More info > Run anyway**.
+
+---
+
+## What is different from ImageGlass
+
+| Area | ImageGlass 10 (Classic) | FateGlass |
+| --- | --- | --- |
+| File watcher (live folder changes) | Pro | Included, on by default |
+| Free panning and margin panning | Pro | Included, on by default (100 px margin) |
+| Settings page for mouse click actions | Pro | Included |
+| Auto-open newly added images | Pro | Included |
+| Default and admin config files (`igconfig.default.json`, `igconfig.admin.json`) | Pro | Included |
+| Projector view sync and pointer, HDR Tone Mapper | Pro | Included |
+| File type associations and file type icons | Included | Included, with FateGlass icons |
+| Update check | Daily background check | Removed |
+| Usage statistics | Sent with the update check | Removed with it |
+| Upgrade prompts, license screens, Pro badges | Shown | Removed |
+| Links to the upstream website and repos | Throughout the app | Hidden, and blocked as a safety net |
+| Lock zoom | A zoom mode | A toggle: press again to release it |
+| Look | Kobe themes, blue icon | FateGlass navy and gold, 13 themes, new icons |
+| Defaults | Factory | The owner's settings, synced on every build |
+
+FateGlass makes no network requests of its own. The only remaining web links are ones you configure yourself, such
+as a plugin's homepage.
+
+---
+
+## Themes
+
+Every theme shares one icon set, recoloured to its palette. The palettes come from
+[Fate Takes You Home](https://github.com/VagueDustin/fate-takes-you-home), so FateGlass matches the rest of the
+house. Pick one in **Settings > Appearance**.
 
 <table>
-<tr valign="top">
-<td width="25%" align="center"><a target="_blank" href="https://buy.stripe.com/dRmfZh2wJaCSaOB1h7fUQ09?client_reference_id=pro-individual__onetime__imageglass-10-0-6-906-66"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/pricing/pro-individual-dark.svg"/>
-  <img src=".github/assets/pricing/pro-individual.svg" width="100%" alt="Pro Individual: $14.90 one-time, 1 user or device, Pro license, Pro v10.x updates"/>
-</picture></a></td>
-<td width="25%" align="center"><a target="_blank" href="https://buy.stripe.com/6oU8wP5IVh1g4qdcZPfUQ0a?client_reference_id=pro-team__onetime__imageglass-10-0-6-906-66"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/pricing/pro-team-dark.svg"/>
-  <img src=".github/assets/pricing/pro-team.svg" width="100%" alt="Pro Team: $69 one-time, up to 3 users or devices, Commercial Pro license, Pro v10.x updates"/>
-</picture></a></td>
-<td width="25%" align="center"><a target="_blank" href="https://buy.stripe.com/14A4gz8V73aq5uhcZPfUQ0b?client_reference_id=pro-business__yearly__imageglass-10-0-6-906-66"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/pricing/pro-business-dark.svg"/>
-  <img src=".github/assets/pricing/pro-business.svg" width="100%" alt="Pro Business: from $99 per seat per year, subscription, Commercial Pro license, all versions, priority support"/>
-</picture></a></td>
-<td width="25%" align="center"><a target="_blank" href="https://imageglass.org/download"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/pricing/classic-dark.svg"/>
-  <img src=".github/assets/pricing/classic.svg" width="100%" alt="Classic: free, unlimited users, GPLv3 license, all versions, community support"/>
-</picture></a></td>
+<tr>
+<td align="center" width="33%"><img src="source/__assets/__app/_themes/FateGlass/preview.webp" alt="FateGlass theme" /><br/><b>FateGlass</b><br/><sub>Navy and gold, the house look</sub></td>
+<td align="center" width="33%"><img src="source/__assets/__app/_themes/Dracula/preview.webp" alt="Dracula theme" /><br/><b>Dracula</b><br/><sub>Soft violet on deep grey</sub></td>
+<td align="center" width="33%"><img src="source/__assets/__app/_themes/Nord/preview.webp" alt="Nord theme" /><br/><b>Nord</b><br/><sub>Arctic blues</sub></td>
+</tr>
+<tr>
+<td align="center"><img src="source/__assets/__app/_themes/Gruvbox/preview.webp" alt="Gruvbox theme" /><br/><b>Gruvbox</b><br/><sub>Retro amber warmth</sub></td>
+<td align="center"><img src="source/__assets/__app/_themes/One-Dark/preview.webp" alt="One Dark theme" /><br/><b>One Dark</b><br/><sub>The classic editor dark</sub></td>
+<td align="center"><img src="source/__assets/__app/_themes/Rose-Pine/preview.webp" alt="Rosé Pine theme" /><br/><b>Rosé Pine</b><br/><sub>Dusk violet and rose gold</sub></td>
+</tr>
+<tr>
+<td align="center"><img src="source/__assets/__app/_themes/Cyberpunk/preview.webp" alt="Cyberpunk theme" /><br/><b>Cyberpunk</b><br/><sub>Violet dark and hot neon</sub></td>
+<td align="center"><img src="source/__assets/__app/_themes/Crimson/preview.webp" alt="Crimson theme" /><br/><b>Crimson</b><br/><sub>Warm greys and scarlet</sub></td>
+<td align="center"><img src="source/__assets/__app/_themes/Terminal/preview.webp" alt="Terminal theme" /><br/><b>Terminal</b><br/><sub>Green phosphor on black glass</sub></td>
+</tr>
+<tr>
+<td align="center"><img src="source/__assets/__app/_themes/Midnight/preview.webp" alt="Midnight theme" /><br/><b>Midnight</b><br/><sub>Neutral Windows dark</sub></td>
+<td align="center"><img src="source/__assets/__app/_themes/Mono/preview.webp" alt="Mono theme" /><br/><b>Mono</b><br/><sub>Monochrome, only the photo has colour</sub></td>
+<td align="center"><img src="source/__assets/__app/_themes/Daybreak/preview.webp" alt="Daybreak theme" /><br/><b>Daybreak</b><br/><sub>Light: parchment and darkened gold</sub></td>
+</tr>
+<tr>
+<td align="center"><img src="source/__assets/__app/_themes/Light/preview.webp" alt="Light theme" /><br/><b>Light</b><br/><sub>Light: paper white</sub></td>
+<td></td>
+<td></td>
 </tr>
 </table>
 
-👉 Compare all plans and features at [imageglass.org/pricing](https://imageglass.org/pricing).
+Dark mode uses the dark theme and light mode uses the light theme (Daybreak unless you choose otherwise).
+
+### Add or change a theme
+
+The 12 extra themes are generated from the FateGlass pack by
+[`make-themes.ps1`](source/__assets/win/fateglass/make-themes.ps1). Each theme is one line of colours in that script:
+surface, raised surface, overlay, border, text, accent and icon colour. Edit or add a line, then run:
+
+```powershell
+pwsh source/__assets/win/fateglass/make-themes.ps1
+```
+
+It rewrites `source/__assets/__app/_themes/<Name>/` with recoloured icons, logo, `igtheme.json` and a fresh
+`preview.webp` (needs [ImageMagick 7](https://imagemagick.org)). To change the icons themselves, edit the SVGs in
+`_themes/FateGlass/` and rerun the script so every theme picks them up.
+
+---
+
+## Lock zoom
+
+Zoom into a photo, then press the padlock button (or **2**, or **Menu > Zoom > Lock zoom**). Moving to the next or
+previous photo keeps the same zoom level and the same spot in the frame, which makes comparing a set of similar
+shots easy. Press it again to release the lock and go back to the zoom mode you had before.
+
+The padlock is not on the toolbar by default. Add it in **Settings > Toolbar** by dragging it from
+**Available buttons** into **Current buttons**.
+
+---
+
+## Settings and defaults
+
+FateGlass reads its settings in layers. Later layers win:
+
+| Layer | Where | Purpose |
+| --- | --- | --- |
+| Defaults | `igconfig.default.json` next to `FateGlass.exe` | Ships with the installer. Holds the owner's settings. |
+| Your settings | `%LocalAppData%\FateGlass\igconfig.json` | Everything you change. FateGlass saves the whole set when it closes. |
+| Command line | `FateGlass.exe -p:ZoomMode=AutoZoom` | One-off overrides for a single launch |
+| Admin policy | `igconfig.admin.json` next to `FateGlass.exe` | Locks settings and features; values here cannot be changed in the app |
+
+On a fresh install, before you change anything, FateGlass looks exactly like the defaults file. Once your own
+`igconfig.json` exists it overrides them, so a new installer never resets your setup.
+
+### Every build ships the current settings
+
+[`build-fateglass.ps1`](source/__assets/win/fateglass/build-fateglass.ps1) reads the live
+`%LocalAppData%\FateGlass\igconfig.json` on the build machine and folds every changed preference into
+`igconfig.default.json` before packaging. History is skipped (last image, last settings page, update bookkeeping).
+The result is committed like any other change, so the next release carries it. Pass `-NoSettingsSync` to ship the
+defaults file untouched; the release workflow always does, since the runner has no settings of its own.
+
+### Portable mode
+
+An empty file named `.igportable` next to `FateGlass.exe` moves every setting, cache and log into that folder. The
+folder must be writable, so this suits a copy outside Program Files.
+
+### Useful keys
+
+| Key | Action |
+| --- | --- |
+| **← / →** | Previous or next photo |
+| **2** | Lock zoom on or off |
+| **0** | Actual size |
+| **Ctrl + ,** | Settings |
+| **F11** | Full screen |
+| **F1** | About |
+
+Every key can be changed in **Settings > Keyboard**, and mouse clicks in **Settings > Mouse**.
+
+---
+
+## Build from source
+
+### What you need
+
+| Tool | Version | For |
+| --- | --- | --- |
+| [.NET SDK](https://dotnet.microsoft.com/download/dotnet/10.0) | 10.0 | Building the app |
+| [PowerShell](https://github.com/PowerShell/PowerShell) | 7.3 or newer | The build scripts |
+| WiX Toolset | 5.0.2 | The MSI: `dotnet tool install --global wix --version 5.0.2` |
+| Visual Studio "Desktop development with C++" | 2022 or newer | Optional: only for a Native AOT build (`-Aot`) |
+| [ImageMagick](https://imagemagick.org) | 7.1 | Optional: only to regenerate themes or file type icons |
+
+### Build the installer
+
+```powershell
+pwsh source/__assets/win/fateglass/build-fateglass.ps1
+```
+
+The MSI lands in `source/__artifacts/bundle/FateGlass_<version>_win-x64.msi`.
+
+| Option | Effect |
+| --- | --- |
+| `-Aot` | Native AOT: one precompiled executable that starts faster. Needs the C++ workload. |
+| `-Version 10.0.7` | Stamps a version on the app and installer instead of the one in `Directory.Build.props`. |
+| `-NoSettingsSync` | Ships `igconfig.default.json` without folding in your live settings. |
+
+Without `-Aot` the build is a regular self-contained .NET app: same features, slightly slower first start.
+
+### Run from source
+
+```powershell
+cd source
+dotnet build ImageGlass.Win32 -c Debug -p:Platform=x64
+```
+
+`-p:Platform=x64` is required. A debug build does not copy the themes and language files, so copy
+`source/__assets/__app/*` next to the built `FateGlass.exe` once, and add an empty `.igportable` there so a test run
+never touches your real settings.
+
+### Regenerate artwork
+
+```powershell
+pwsh source/__assets/win/fateglass/make-themes.ps1      # all themes from the FateGlass pack
+pwsh source/__assets/win/fateglass/make-ext-icons.ps1   # the 88 file type icons from the app mark
+```
+
+The app icon is `source/ImageGlass.Win32/fateglass-icon.svg`; the two `icon256.ico` files are rendered from it.
+
+---
+
+## Make a release
+
+The [Build installer](../../actions/workflows/release-installer.yml) workflow does the packaging.
+
+1. Commit and push to `main`.
+2. Create a release on GitHub with a tag such as `v10.0.7` and publish it.
+3. The workflow builds a Native AOT installer on a Windows runner and attaches
+   `FateGlass_10.0.7_win-x64.msi` to that release, usually within 15 minutes.
+
+A tag that looks like a version (`v10.0.7` or `v10.0.7.1200`) becomes the app and installer version. Any other tag
+keeps the version in `source/Directory.Build.props`. Installers upgrade each other in place, including two builds
+with the same version.
+
+To try a build without a release, open the workflow on the **Actions** tab and choose **Run workflow**. The MSI is
+kept as a workflow artifact for 90 days.
+
+Before tagging, run a local build once so `igconfig.default.json` picks up your latest settings, and commit it.
+
+---
+
+## How it is built
+
+FateGlass is ImageGlass 10: C# on .NET 10 with [Avalonia 12](https://avaloniaui.net) for the interface,
+[SkiaSharp](https://github.com/mono/SkiaSharp) for rendering and [Magick.NET](https://github.com/dlemstra/Magick.NET)
+for the less common formats. The changes live on top of the upstream code so upstream fixes can still be merged.
+
+| Path | What it is |
+| --- | --- |
+| `source/ImageGlass.Lib` | The app: viewer, settings, themes, tools |
+| `source/ImageGlass.Win32` | The Windows executable (`FateGlass.exe`) and app icon |
+| `source/__assets/__app` | Shipped payload: themes, languages, file type icons, transitions |
+| `source/__assets/win/fateglass` | Installer (`FateGlass.wxs`), build and artwork scripts, default settings |
+| `.github/workflows/release-installer.yml` | The release runner |
+| `v9` | The archived ImageGlass 9 source, untouched |
+
+Where the personal changes are, for future upstream merges:
+
+| Change | Code |
+| --- | --- |
+| Everything unlocked | `Core.IsProEnabled` in `ImageGlass.Lib/Core.cs` |
+| Update check and its statistics removed | `UpdateProvider.CheckForUpdateAsync`, `FeatureManager.Refresh` |
+| Upstream links blocked | `BHelper.OpenUrlAsync` in `Common/BHelper/Path.cs` |
+| Name, settings folder, single-instance lock | `BHelper.AppName`, `Core.AppInstance`, `Lang.Get` (renames language packs at lookup) |
+| Lock zoom toggle | `AppAPIProvider.IG_SetZoomMode` |
+| Default themes | `Const.DEFAULT_THEME`, `Const.DEFAULT_LIGHT_THEME` |
+
+### Keeping up with ImageGlass
+
+```powershell
+git remote add upstream https://github.com/d2phap/ImageGlass.git
+git fetch upstream
+git merge upstream/main
+```
+
+Most merges are clean. Conflicts, when they happen, are usually in the files listed above.
+
+---
+
+## Credits and license
+
+FateGlass is based on [ImageGlass](https://github.com/d2phap/ImageGlass) by Dương Diệu Pháp and its contributors,
+© 2010-2026, released under the GNU General Public License v3. FateGlass keeps that license: see [LICENSE](LICENSE).
+If you find ImageGlass useful in your own work, its author sells Pro licenses that fund the project.
+
+Format support comes from SkiaSharp, Magick.NET and libraries credited in the app's About window.
 
 <br/>
 
-
-> [!Caution]
-> ### Security Alert: Fake Repositories and AI Threat Mitigation
-> Automated malicious campaigns are actively deploying AI tools to impersonate trusted software. They stand up fake GitHub profiles and Gists designed to trick users into downloading compromised packages.
-> - **Only use official channels**: Always download ImageGlass directly from the ([official website](https://imageglass.org)). Never download binaries from third-party mirrors, unverified GitHub forks, or standalone GitHub Gists.
-> - **Verify the repo source:** The only authentic spaces for this project on GitHub are the official [d2phap/ImageGlass](https://github.com/d2phap/ImageGlass) repository and the [ImageGlass Organization](https://github.com/ImageGlass). Any other profile or fork promising 'portable patches', 'extended releases', or alternative mirrors is completely unauthorized and highly likely to contain malware.
-> - **Check the URL**: Double-check your browser address bar to ensure you are not visiting a typosquatted domain.
-
-<br/>
-
-
-## Features
-Primarily a photo viewer, ImageGlass offers a wide array of features geared toward image viewing, along with some focused editing capabilities. Here are some of the key features:
-- Supports [90+ image formats](https://imageglass.org/docs/supported-formats) out of the box
-- Hardware-aware smart caching
-- Super-fast image browsing with Turbo mode
-- Slideshow with random interval and sound notification
-- Native SVG and SVGZ vector rendering
-- Animated GIF, WEBP, and SVG playback
-- Color management and basic HDR support
-- Different cursor-precise zoom modes with flexible image interpolations
-- Different window modes: Frameless, Window Fit, Full screen
-- Built-in Tools: Rotate, Flip, Crop, Resize, Color Picker, Frame Navigation, Lossless compression...
-- EXIF metadata viewing through the [ExifGlass tool](https://github.com/d2phap/ExifGlass)
-- Touch gestures for zoom and pan
-- Themes, layouts, and custom hotkeys
-- Custom action binding for toolbar, mouse...
-- [Plugins](https://imageglass.org/plugins) and [external tools](https://imageglass.org/tools) support via [ImageGlass.SDK](https://github.com/ImageGlass/SDK)
-- Windows: Explorer sort order support
-- Windows: Custom file type icon pack (Not available for Store release)
-
-👉 Visit https://imageglass.org/docs/features to explore all features of ImageGlass.
-
-<br/>
-
-
-## System Requirements
-**Version 10**
-- Windows 10/11 x64 or arm64, version 1809 (build 17763) or later
-- macOS 14+, Apple Silicon arm64
-- Linux Desktop X11 x64
-
-**Version 9**
-- Windows 10/11 x64 or arm64, version 1809 (build 17763) or later
-- Optional: [WebView2 Runtime 64-bit v119.0.2151 or later](https://go.microsoft.com/fwlink/p/?LinkId=2124703)
-
-<br/>
-
-
-## Development
-The `develop` branch contains the latest commits, while the `prod` branch holds the final stable release.
-
-**Version 10**: Located in `source` folder
-- Visual Studio 2026 for Windows build
-- VS Code for macOS, Linux build
-- Run a task from VS Code to build, publish, or pack the app
-  + Note: for debug builds, copy the contents of `source/__assets/__app/` into the build output folder, beside the ImageGlass executable, before launching it.
-
-**Version 9**: Located in `v9` folder
-- Visual Studio 2026 on Windows 11
-- VS Code for `WebUI`
-
-<br/>
-
-
-## Roadmap
-
-[![ImageGlass 2026 roadmap](https://github.com/user-attachments/assets/9cf2a8a4-18f4-4852-ad83-5df79239d93f)](https://github.com/d2phap/ImageGlass/discussions/2287)
-
-<br/>
-
-
-## This project needs your help!
-
-If you find ImageGlass useful and would like to support its ongoing development, please consider making a donation or purchase Pro edition. Your support — whether financial or simply sharing ImageGlass with others — means the world to me. Every bit helps keep the project alive for everyone.
-
-#### 👉 Explore the ways to support at [imageglass.org/donate](https://imageglass.org/donate).
-
+<div align="center">
+<sub>Provided by VagueDustin Enterprises™ · © 2026 FateGlass. Licensed under the GNU GPLv3.</sub>
+</div>

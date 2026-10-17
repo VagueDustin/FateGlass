@@ -9,14 +9,21 @@
 
 .PARAMETER NoSettingsSync
     Ship igconfig.default.json as it is, without folding in the live FateGlass settings.
+
+.PARAMETER Version
+    App and installer version (e.g. 10.0.7 or 10.0.7.1200). Defaults to IgVersion in
+    Directory.Build.props. The release workflow passes the release tag here.
 #>
-param([switch]$Aot, [switch]$NoSettingsSync)
+param([switch]$Aot, [switch]$NoSettingsSync, [string]$Version)
 
 $ErrorActionPreference = 'Stop'
 $src = Resolve-Path "$PSScriptRoot\..\..\.."
 $publishDir = "$src\__artifacts\publish\fateglass-win-x64"
 $bundleDir = "$src\__artifacts\bundle"
-$version = ([xml](Get-Content "$src\Directory.Build.props")).Project.PropertyGroup.IgVersion | Select-Object -First 1
+$version = if ($Version) { $Version } else {
+    ([xml](Get-Content "$src\Directory.Build.props")).Project.PropertyGroup.IgVersion | Select-Object -First 1
+}
+if ($version -notmatch '^\d+\.\d+\.\d+(\.\d+)?$') { throw "Version '$version' must look like 10.0.7 or 10.0.7.1200" }
 
 Write-Host "==> FateGlass $version (AOT: $([bool]$Aot))"
 
@@ -43,7 +50,7 @@ if (-not $NoSettingsSync -and (Test-Path $livePath)) {
 # 2. publish
 if (Test-Path $publishDir) { Remove-Item $publishDir -Recurse -Force }
 $aotArgs = if ($Aot) { @() } else { @('-p:PublishAot=false', '-p:PublishTrimmed=false') }
-& dotnet publish "$src\ImageGlass.Win32" -c Release -r win-x64 -p:Platform=x64 @aotArgs -o $publishDir
+& dotnet publish "$src\ImageGlass.Win32" -c Release -r win-x64 -p:Platform=x64 "-p:IgVersion=$version" @aotArgs -o $publishDir
 if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed (exit $LASTEXITCODE)" }
 
 # 3. payload: themes, languages, file type icons, transitions, and the default settings
