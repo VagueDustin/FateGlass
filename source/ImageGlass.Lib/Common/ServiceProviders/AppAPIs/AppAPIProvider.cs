@@ -3660,8 +3660,6 @@ public partial class AppAPIProvider
     /// </summary>
     public static void SetFileWatcher(bool enabled)
     {
-        // file watcher is a Pro feature
-        if (enabled && !Core.IsProEnabled) enabled = false;
 
         if (enabled)
         {

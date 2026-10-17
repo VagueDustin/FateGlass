@@ -111,11 +111,6 @@ public partial class Config
     [JsonIgnore]
     public static FrozenSet<ConfigId> ProGatedConfigs { get; } = new[]
     {
-        ConfigId.EnableFileWatcher,
-        ConfigId.EnableAutoOpenNewAddedImage,
-        ConfigId.MouseClickActions,
-        ConfigId.EnableFreePan,
-        ConfigId.PanMargin,
         ConfigId.EnableAutoInstallUpdate,
     }.ToFrozenSet();
 

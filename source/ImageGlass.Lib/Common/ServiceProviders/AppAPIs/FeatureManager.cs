@@ -22,6 +22,7 @@ using ImageGlass.Common.Types;
 using ImageGlass.UI;
 using System;
 using System.Collections.Frozen;
+using System.Linq;
 using System.Threading;
 
 namespace ImageGlass.Common.ServiceProviders;
@@ -51,7 +52,10 @@ internal static class FeatureManager
     public static void Refresh()
     {
         // admin-only, already Pro-gated at capture
-        var newLocked = Config.LockedFeatures;
+        // personal build: update checks are always locked, which also hides their menu items
+        var newLocked = Config.LockedFeatures
+            .Union([nameof(API.IG_CheckForUpdate), nameof(API.IG_InstallUpdate)])
+            .ToFrozenSet();
 
         // consumer Pro features stay gated until a license is active
         var newProGated = Core.IsProEnabled ? FrozenSet<LangId>.Empty : _proFeatureKeys;

@@ -145,6 +145,7 @@
                 VerticalContentAlignment="Center" />
             <ui:PhButton
                 x:Name="PART_BtnCheckForUpdate"
+                IsVisible="False"
                 MinWidth="80"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center" />

@@ -61,6 +61,10 @@ public partial class UpdateProvider : IUpdateProvider
     /// </param>
     public async Task<UpdateCheckResult> CheckForUpdateAsync(CancellationToken ct, bool isScheduled = false)
     {
+        // personal build: never contact the update server (this request also carried the usage stats)
+        return UpdateCheckResult.Failed("Updates are disabled in this build.");
+
+#pragma warning disable CS0162 // kept so upstream merges stay small
         if (_isChecking) return UpdateCheckResult.Failed("Check already in progress.");
 
         _isChecking.SetTrue();
@@ -89,6 +93,7 @@ public partial class UpdateProvider : IUpdateProvider
         {
             _isChecking.SetFalse();
         }
+#pragma warning restore CS0162
     }
 
 

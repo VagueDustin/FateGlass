@@ -70,8 +70,8 @@
 
 
         <!--  App update  -->
-        <ui:PhTextBlock Classes="group" LangKey="Settings_AppUpdate" />
-        <StackPanel Margin="{DynamicResource SettingsGroupIndent}">
+        <ui:PhTextBlock Classes="group" IsVisible="False" LangKey="Settings_AppUpdate" />
+        <StackPanel IsVisible="False" Margin="{DynamicResource SettingsGroupIndent}">
             <CheckBox x:Name="PART_AutoUpdate">
                 <ui:PhTextBlock LangKey="Settings_AutoUpdate" TextWrapping="Wrap" />
             </CheckBox>
