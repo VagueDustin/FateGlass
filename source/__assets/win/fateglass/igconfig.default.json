@@ -265,20 +265,6 @@
       }
     },
     {
-      "Id": "Btn_LockZoom",
-      "Image": "LockZoom",
-      "Text": "Menu_MnuLockZoom",
-      "ShowText": false,
-      "ConfigBinding": "ZoomMode",
-      "ConfigBindingValue": "LockZoom",
-      "Alignment": "Left",
-      "OnClick": {
-        "Hotkeys": [],
-        "Executable": "IG_SetZoomMode",
-        "Argument": "LockZoom"
-      }
-    },
-    {
       "Id": "Btn_Gallery",
       "Image": "Gallery",
       "Text": "Menu_MnuToggleGallery",
