@@ -279,7 +279,6 @@ for the less common formats. The changes live on top of the upstream code so ups
 | `source/__assets/__app` | Shipped payload: themes, languages, file type icons, transitions |
 | `source/__assets/win/fateglass` | Installer (`FateGlass.wxs`), build and artwork scripts, default settings |
 | `.github/workflows/release-installer.yml` | The release runner |
-| `v9` | The archived ImageGlass 9 source, untouched |
 
 Where the personal changes are, for future upstream merges:
 

@@ -1,4 +1,0 @@
-﻿
-GetGestureInfo
-CloseGestureInfoHandle
-SetGestureConfig
