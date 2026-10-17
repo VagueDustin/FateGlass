@@ -164,6 +164,7 @@ public partial class FileTypeAssociationsSettingsView : SettingsPageView
         AddLangRefresher(() => PART_ExtIconsDesc.LangParams = Core.Lang[LangId._Register]);
 
         SetLocalizedText(PART_GetExtIconPacks, LangId.Settings_GetExtensionIconPacks);
+        PART_GetExtIconPacks.IsVisible = false; // personal build: upstream icon packs
         PART_GetExtIconPacks.Click += async (_, _) =>
             await BHelper.OpenUrlAsync(this, EXT_ICON_PACKS_URL, "from_ext_icons");
 

@@ -1,0 +1,65 @@
+{
+  "_Metadata": {
+    "Description": "ImageGlass theme configuration file",
+    "Version": 10
+  },
+  "Info": {
+    "Name": "Cyberpunk",
+    "Author": "VagueDustin Enterprises",
+    "Email": "VagueDustin@users.noreply.github.com",
+    "Website": "https://vaguedustin.com",
+    "Description": "Violet dark and hot neon. The city outside the window never sleeps either.",
+    "Version": 10
+  },
+  "Settings": {
+    "IsDarkMode": true,
+    "PreviewImage": "preview.webp",
+    "AppLogo": "logo.svg"
+  },
+  "Colors": {
+    "AccentColor": "#FF2ED2",
+    "TextColor": "#F2E9FF",
+    "BgColor": "#0B0217ee",
+    "ToolbarBgColor": "#150829cc",
+    "GalleryBgColor": "#150829cc",
+    "MenuBgColor": "#1D0C36"
+  },
+  "ToolbarIcons": {
+    "ActualSize": "ActualSize.svg",
+    "AutoZoom": "AutoZoom.svg",
+    "Checkerboard": "Checkerboard.svg",
+    "ColorPicker": "ColorPicker.svg",
+    "Crop": "Crop.svg",
+    "Delete": "Delete.svg",
+    "Edit": "Edit.svg",
+    "FlipHorz": "FlipHorz.svg",
+    "FlipVert": "FlipVert.svg",
+    "FullScreen": "FullScreen.svg",
+    "GoToImage": "GoToImage.svg",
+    "LockZoom": "LockZoom.svg",
+    "MainMenu": "MainMenu.svg",
+    "OpenFile": "OpenFile.svg",
+    "Print": "Print.svg",
+    "Refresh": "Refresh.svg",
+    "RotateLeft": "RotateLeft.svg",
+    "RotateRight": "RotateRight.svg",
+    "Save": "Save.svg",
+    "ScaleToFill": "ScaleToFill.svg",
+    "ScaleToFit": "ScaleToFit.svg",
+    "ScaleToHeight": "ScaleToHeight.svg",
+    "ScaleToWidth": "ScaleToWidth.svg",
+    "Slideshow": "Slideshow.svg",
+    "Gallery": "Gallery.svg",
+    "ViewFirstImage": "ViewFirstImage.svg",
+    "ViewLastImage": "ViewLastImage.svg",
+    "ViewNextImage": "ViewNextImage.svg",
+    "ViewPreviousImage": "ViewPreviousImage.svg",
+    "WindowFit": "WindowFit.svg",
+    "ZoomIn": "ZoomIn.svg",
+    "ZoomOut": "ZoomOut.svg",
+    "Play": "Play.svg",
+    "Pause": "Pause.svg",
+    "Export": "Export.svg",
+    "Exit": "Exit.svg"
+  }
+}

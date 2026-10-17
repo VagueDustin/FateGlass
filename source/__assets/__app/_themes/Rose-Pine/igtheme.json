@@ -1,0 +1,65 @@
+{
+  "_Metadata": {
+    "Description": "ImageGlass theme configuration file",
+    "Version": 10
+  },
+  "Info": {
+    "Name": "Rosé Pine",
+    "Author": "VagueDustin Enterprises",
+    "Email": "VagueDustin@users.noreply.github.com",
+    "Website": "https://vaguedustin.com",
+    "Description": "Soho vibes: dusk violet, rose gold, and a lamp left on for you.",
+    "Version": 10
+  },
+  "Settings": {
+    "IsDarkMode": true,
+    "PreviewImage": "preview.webp",
+    "AppLogo": "logo.svg"
+  },
+  "Colors": {
+    "AccentColor": "#EBBCBA",
+    "TextColor": "#E0DEF4",
+    "BgColor": "#16141Fee",
+    "ToolbarBgColor": "#191724cc",
+    "GalleryBgColor": "#191724cc",
+    "MenuBgColor": "#1F1D2E"
+  },
+  "ToolbarIcons": {
+    "ActualSize": "ActualSize.svg",
+    "AutoZoom": "AutoZoom.svg",
+    "Checkerboard": "Checkerboard.svg",
+    "ColorPicker": "ColorPicker.svg",
+    "Crop": "Crop.svg",
+    "Delete": "Delete.svg",
+    "Edit": "Edit.svg",
+    "FlipHorz": "FlipHorz.svg",
+    "FlipVert": "FlipVert.svg",
+    "FullScreen": "FullScreen.svg",
+    "GoToImage": "GoToImage.svg",
+    "LockZoom": "LockZoom.svg",
+    "MainMenu": "MainMenu.svg",
+    "OpenFile": "OpenFile.svg",
+    "Print": "Print.svg",
+    "Refresh": "Refresh.svg",
+    "RotateLeft": "RotateLeft.svg",
+    "RotateRight": "RotateRight.svg",
+    "Save": "Save.svg",
+    "ScaleToFill": "ScaleToFill.svg",
+    "ScaleToFit": "ScaleToFit.svg",
+    "ScaleToHeight": "ScaleToHeight.svg",
+    "ScaleToWidth": "ScaleToWidth.svg",
+    "Slideshow": "Slideshow.svg",
+    "Gallery": "Gallery.svg",
+    "ViewFirstImage": "ViewFirstImage.svg",
+    "ViewLastImage": "ViewLastImage.svg",
+    "ViewNextImage": "ViewNextImage.svg",
+    "ViewPreviousImage": "ViewPreviousImage.svg",
+    "WindowFit": "WindowFit.svg",
+    "ZoomIn": "ZoomIn.svg",
+    "ZoomOut": "ZoomOut.svg",
+    "Play": "Play.svg",
+    "Pause": "Pause.svg",
+    "Export": "Export.svg",
+    "Exit": "Exit.svg"
+  }
+}

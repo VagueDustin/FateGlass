@@ -52,9 +52,10 @@ internal static class FeatureManager
     public static void Refresh()
     {
         // admin-only, already Pro-gated at capture
-        // personal build: update checks are always locked, which also hides their menu items
+        // personal build: update, license and upstream issue-tracker items are locked, which also hides them
         var newLocked = Config.LockedFeatures
-            .Union([nameof(API.IG_CheckForUpdate), nameof(API.IG_InstallUpdate)])
+            .Union([nameof(API.IG_CheckForUpdate), nameof(API.IG_InstallUpdate),
+                nameof(API.IG_ManageLicense), nameof(API.IG_ReportIssue)])
             .ToFrozenSet();
 
         // consumer Pro features stay gated until a license is active

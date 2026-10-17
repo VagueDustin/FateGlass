@@ -75,7 +75,7 @@ public static class Const
     /// <summary>
     /// The default theme pack for light mode.
     /// </summary>
-    public const string DEFAULT_LIGHT_THEME = "FateGlass";
+    public const string DEFAULT_LIGHT_THEME = "Daybreak";
 
     /// <summary>
     /// Gets built-in image formats

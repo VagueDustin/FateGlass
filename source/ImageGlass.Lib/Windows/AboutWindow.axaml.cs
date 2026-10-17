@@ -97,7 +97,9 @@ public partial class AboutWindow : DialogWindow
         DefaultFocus = DialogFocus.Button1;
         ShowInTaskbar = true;
 
-        PART_LblCopyright.Text = $"Copyright © 2010-{DateTime.UtcNow.Year} Dương Diệu Pháp";
+        // publisher credit, plus the original author's credit the GPL fork keeps (plain text, no link)
+        PART_LblCopyright.Text = $"Provided by VagueDustin Enterprises™ · © {DateTime.UtcNow.Year} FateGlass\n"
+            + $"Based on ImageGlass © 2010-{DateTime.UtcNow.Year} Dương Diệu Pháp, GPLv3";
         PART_LblCreditContent.Text = _creditContent;
 
         SetupEditionChip();

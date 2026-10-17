@@ -659,20 +659,11 @@ public partial class BHelper
         {
             if (!Uri.TryCreate(url, UriKind.Absolute, out var uri)) return;
 
-            // only tag our own http(s) pages with campaign params. Protocol URIs (ms-settings:,
-            // mailto:, ...) break if a query is appended, and third-party hosts (github.com) must
-            // never receive the app version or which button was clicked.
-            if (uri.Scheme is "http" or "https" && IsImageGlassHost(uri.Host))
-            {
-                var ub = new UriBuilder(uri);
-                var queries = HttpUtility.ParseQueryString(ub.Query);
-                queries["utm_source"] = $"app_{Core.BuildInfo.FullVersion}";
-                queries["utm_medium"] = "app_click";
-                queries["utm_campaign"] = campaign;
-
-                ub.Query = queries.ToString();
-                uri = ub.Uri;
-            }
+            // personal build: never open the upstream site or repos, so no link can lead back there
+            var isUpstreamGitHub = uri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase)
+                && (uri.AbsolutePath.StartsWith("/d2phap/", StringComparison.OrdinalIgnoreCase)
+                    || uri.AbsolutePath.StartsWith("/ImageGlass/", StringComparison.OrdinalIgnoreCase));
+            if (IsImageGlassHost(uri.Host) || isUpstreamGitHub) return;
 
 
             var launcher = TopLevel.GetTopLevel(visual)?.Launcher;

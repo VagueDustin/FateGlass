@@ -127,6 +127,7 @@
                 <!--  Upgrade pitch or manage license, depending on the edition  -->
                 <ui:PhButton
                     x:Name="PART_License"
+                    IsVisible="False"
                     Grid.Column="1"
                     VerticalAlignment="Center"
                     Click="License_Click"

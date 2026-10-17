@@ -44,14 +44,10 @@ public partial class ToolEditWindowView : PhControl
     {
         base.OnIgLanguageChanged();
 
-        // "Integrated with {0}" -> label text + "ImageGlass.SDK" link (+ any trailing text)
-        var template = Core.Lang[LangId.Settings_Tools_IntegratedWith];
-        var idx = template.IndexOf("{0}", System.StringComparison.Ordinal);
-
-        PART_IntegratedBefore.Text = idx < 0 ? template : template[..idx];
-        PART_IntegratedAfter.Text = idx < 0 ? string.Empty : template[(idx + 3)..];
-        PART_IntegratedAfter.IsVisible = !string.IsNullOrEmpty(PART_IntegratedAfter.Text);
-        PART_SdkLink.Text = "ImageGlass.SDK";
+        // personal build: plain text instead of a link to the upstream SDK repo
+        PART_IntegratedBefore.Text = Core.Lang[LangId.Settings_Tools_IntegratedWith].Replace("{0}", "the tool SDK");
+        PART_IntegratedAfter.IsVisible = false;
+        PART_SdkLink.IsVisible = false;
     }
 
 

@@ -23,6 +23,8 @@ if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed (exit $LASTEXITCODE)" }
 
 # shared payload: themes, languages, file type icons, transitions
 Copy-Item "$src\__assets\__app\*" $publishDir -Recurse -Force
+# Dustin's settings as the built-in defaults; a user's own igconfig.json still wins over them
+Copy-Item "$PSScriptRoot\igconfig.default.json" $publishDir
 Get-ChildItem $publishDir -Recurse -Include '*.pdb' | Remove-Item -Force
 
 New-Item -ItemType Directory $bundleDir -Force | Out-Null

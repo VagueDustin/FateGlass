@@ -133,7 +133,7 @@ public partial class QuickSetupView : PhControl
 
         // step 1: language
         PART_LanguageList.SelectionChanged += Language_SelectionChanged;
-        PART_SeeWhatNew.Click += async (_, _) => await BHelper.OpenUrlAsync(this, NEWS_URL, "from_quick_setup");
+        PART_SeeWhatNew.IsVisible = false; // personal build: upstream release notes
 
         // step 2: profile
         PART_BtnStandard.Click += (_, _) => SelectProfile(false);

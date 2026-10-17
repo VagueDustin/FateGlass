@@ -61,7 +61,7 @@ public partial class GeneralSettingsView : SettingsPageView
             () => OpenUserConfigFile(userConfig));
 
         // Actions
-        BindLink(PART_GetHelp, LangId._GetHelp, OpenHelpDocs);
+        PART_GetHelp.IsVisible = false; // personal build: upstream docs
         BindLink(PART_ResetSettings, LangId.Settings_ResetSettings, ShowQuickSetup);
 
         // Startup

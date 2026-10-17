@@ -50,6 +50,7 @@
             <!--  edition chip; text, variant, padding and cursor are set in code, see SetupEditionChip  -->
             <ui:PhButton
                 x:Name="PART_BtnEdition"
+                IsVisible="False"
                 MinWidth="0"
                 Margin="0,10,0,0"
                 HorizontalAlignment="Center"
@@ -71,7 +72,7 @@
                 Background="{DynamicResource IG_BorderNeutralBrush}" />
 
             <!--  links; the Link variant resets Padding, so it is applied in code  -->
-            <WrapPanel HorizontalAlignment="Center">
+            <WrapPanel HorizontalAlignment="Center" IsVisible="False">
                 <ui:PhButton
                     x:Name="PART_BtnWebsite"
                     Margin="1"
@@ -140,6 +141,7 @@
         <StackPanel Orientation="Horizontal" Spacing="8">
             <ui:PhButton
                 x:Name="PART_BtnDonate"
+                IsVisible="False"
                 MinWidth="80"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center" />

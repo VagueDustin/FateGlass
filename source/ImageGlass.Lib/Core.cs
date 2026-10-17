@@ -254,7 +254,7 @@ public static class Core
     /// <summary>
     /// Whether Pro features are unlocked (a valid license is active).
     /// </summary>
-    public static bool IsProEnabled => AppLicense is not null;
+    public static bool IsProEnabled => true; // personal build: every feature is unlocked, no license UI
 
 
     /// <summary>

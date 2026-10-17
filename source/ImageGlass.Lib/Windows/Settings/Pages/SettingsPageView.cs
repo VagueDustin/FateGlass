@@ -346,6 +346,9 @@ public abstract class SettingsPageView : PhControl
     {
         BindLink(btn, label, onClick);
         ToolTip.SetTip(btn, tooltip);
+
+        // personal build: every web link here is a "get more" page on the upstream site
+        btn.IsVisible = !tooltip.StartsWith("http", StringComparison.OrdinalIgnoreCase);
     }
 
 
