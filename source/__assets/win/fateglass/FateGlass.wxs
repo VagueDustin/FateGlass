@@ -17,6 +17,10 @@
                   DowngradeErrorMessage="A newer FateGlass is already installed." />
     <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
 
+    <!-- always copy every file: costing otherwise skips an exe whose installed copy has an equal or
+         higher version, then the upgrade removes that copy and leaves no exe at all -->
+    <Property Id="REINSTALLMODE" Value="amus" />
+
     <Icon Id="FateGlassIcon" SourceFile="$(sys.SOURCEFILEDIR)..\..\..\ImageGlass.Win32\icon256.ico" />
     <Property Id="ARPPRODUCTICON" Value="FateGlassIcon" />
     <Property Id="ARPURLINFOABOUT" Value="https://github.com/VagueDustin" />
