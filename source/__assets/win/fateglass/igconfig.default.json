@@ -7,14 +7,14 @@
   "ShowToolbarInFullscreen": false,
   "ShowGallery": true,
   "ShowGalleryInFullscreen": false,
-  "ShowGalleryFileName": true,
+  "ShowGalleryFileName": false,
   "ShowAppIcon": true,
-  "EnableMainWindowMaximized": false,
+  "EnableMainWindowMaximized": true,
   "EnableSettingsWindowMaximized": false,
   "EnableSlideshowCountdown": true,
   "EnableSlideshowRandomInterval": false,
   "EnableLoopSlideshow": true,
-  "EnableFullscreenSlideshow": true,
+  "EnableFullscreenSlideshow": false,
   "EnableFrameless": false,
   "EnableFullScreen": false,
   "EnableLoopBackNavigation": true,
@@ -23,11 +23,11 @@
   "EnableWindowTopMost": false,
   "EnableFreePan": true,
   "EnableDeleteConfirmation": false,
-  "EnableSaveConfirmation": false,
+  "EnableSaveConfirmation": true,
   "EnablePreserveModifiedDate": false,
   "EnableOpenSaveAsInCurrentFolder": true,
   "EnableWelcomeImage": false,
-  "EnableLastSeenImage": true,
+  "EnableLastSeenImage": false,
   "EnableVectorRenderer": true,
   "EnableHdrToneMapping": true,
   "EnableAlwaysApplyColorProfile": false,
@@ -42,10 +42,10 @@
   "EnableOnlyLoadNonRawPreview": false,
   "EnableImagePreview": true,
   "EnableGalleryShellThumbnail": true,
-  "EnableCopyMultipleFiles": true,
-  "EnableCutMultipleFiles": true,
+  "EnableCopyMultipleFiles": false,
+  "EnableCutMultipleFiles": false,
   "EnableFileWatcher": true,
-  "EnableAutoOpenNewAddedImage": true,
+  "EnableAutoOpenNewAddedImage": false,
   "EnableDebug": false,
   "QuickSetupVersion": 10,
   "PanMargin": 100,
@@ -54,35 +54,35 @@
   "SlideshowInterval": 5,
   "SlideshowIntervalTo": 5,
   "SlideshowImagesToNotifySound": 0,
-  "ThumbnailSize": 70,
+  "ThumbnailSize": 76,
   "GalleryCacheSizeInMb": 100,
   "GalleryColumns": 3,
   "CacheMaxMemoryInMb": 1000,
   "CacheMaxFileSizeInMb": 100,
   "CacheMaxDimension": 8000,
-  "ZoomLockValue": 100,
+  "ZoomLockValue": 92.67578125,
   "ToolbarIconHeight": 24,
-  "ImageEditQuality": 80,
+  "ImageEditQuality": 100,
   "InAppMessageDuration": 2000,
   "PreviewMinWidth": 0,
   "PreviewMinHeight": 0,
   "AutoUpdate": "0",
   "ColorProfile": "CurrentMonitorProfile",
   "SlideshowBackgroundColor": "#000000",
-  "DarkTheme": "FateGlass",
+  "DarkTheme": "Mono",
   "LightTheme": "Daybreak",
   "Language": "English",
   "CheckerboardMode": "None",
   "BrowsingMode": "Turbo",
   "ImageLoadingOrder": "DateCreated",
   "ImageLoadingOrderType": "Asc",
-  "ZoomMode": "ScaleToFit",
+  "ZoomMode": "AutoZoom",
   "ImageInterpolationScaleDown": "LinearMipmapNearest",
-  "ImageInterpolationScaleUp": "Linear",
+  "ImageInterpolationScaleUp": "CubicCatmullRom",
   "AfterEditingAction": 0,
   "WindowBackdrop": "Mica",
-  "MainWindowBounds": "902;629;1256;892",
-  "SettingsWindowBounds": "-1425;883;1256;893",
+  "MainWindowBounds": "784;682;1257;894",
+  "SettingsWindowBounds": "527;233;1440;1225",
   "ZoomLevels": "",
   "EditApps": {},
   "FileFormats": ".3fr;.apng;.ari;.arw;.avif;.bay;.bmp;.cap;.cr2;.cr3;.crw;.cur;.cut;.dcr;.dcs;.dds;.dib;.dng;.drf;.eip;.emf;.erf;.exif;.exr;.fax;.fff;.fits;.flif;.gif;.gifv;.gpr;.hdp;.hdr;.heic;.heif;.hif;.ico;.iiq;.jfif;.jp2;.jpe;.jpeg;.jpg;.jxl;.jxr;.k25;.kdc;.mdc;.mef;.mjpeg;.mos;.mrw;.nef;.nrw;.obm;.orf;.pbm;.pcx;.pef;.pgm;.png;.ppm;.psb;.psd;.ptx;.pxn;.qoi;.r3d;.raf;.raw;.rw2;.rwl;.rwz;.sr2;.srf;.srw;.svg;.svgz;.tga;.tif;.tiff;.viff;.wdp;.webp;.wmf;.wpg;.x3f;.xbm;.xpm;.xv",
@@ -90,7 +90,9 @@
   "MenuHotkeys": {},
   "MouseClickActions": {},
   "MouseWheelActions": {},
-  "Layout": {},
+  "Layout": {
+    "Gallery": "Bottom"
+  },
   "PluginTrust": {},
   "Tools": [
     {
@@ -106,20 +108,6 @@
   ],
   "ToolSettings": {},
   "ToolbarButtons": [
-    {
-      "Id": "Btn_OpenFile",
-      "Image": "OpenFile",
-      "Text": "Menu_MnuOpenFile",
-      "ShowText": false,
-      "ConfigBinding": "",
-      "ConfigBindingValue": "",
-      "Alignment": "Right",
-      "OnClick": {
-        "Hotkeys": [],
-        "Executable": "IG_OpenFile",
-        "Argument": ""
-      }
-    },
     {
       "Id": "Btn_ViewPreviousImage",
       "Image": "ViewPreviousImage",
@@ -146,6 +134,43 @@
         "Hotkeys": [],
         "Executable": "IG_ViewNext",
         "Argument": ""
+      }
+    },
+    {
+      "Id": "SEPARATOR",
+      "Image": "",
+      "Text": "",
+      "ShowText": false,
+      "ConfigBinding": "",
+      "ConfigBindingValue": "",
+      "Alignment": "Left"
+    },
+    {
+      "Id": "Btn_ActualSize",
+      "Image": "ActualSize",
+      "Text": "Menu_MnuActualSize",
+      "ShowText": false,
+      "ConfigBinding": "",
+      "ConfigBindingValue": "",
+      "Alignment": "Left",
+      "OnClick": {
+        "Hotkeys": [],
+        "Executable": "IG_SetZoom",
+        "Argument": "1"
+      }
+    },
+    {
+      "Id": "Btn_AutoZoom",
+      "Image": "AutoZoom",
+      "Text": "Menu_MnuAutoZoom",
+      "ShowText": false,
+      "ConfigBinding": "ZoomMode",
+      "ConfigBindingValue": "AutoZoom",
+      "Alignment": "Left",
+      "OnClick": {
+        "Hotkeys": [],
+        "Executable": "IG_SetZoomMode",
+        "Argument": "AutoZoom"
       }
     },
     {
@@ -279,20 +304,6 @@
       }
     },
     {
-      "Id": "Btn_Checkerboard",
-      "Image": "Checkerboard",
-      "Text": "Menu_MnuToggleCheckerboard",
-      "ShowText": false,
-      "ConfigBinding": "CheckerboardMode",
-      "ConfigBindingValue": "!None",
-      "Alignment": "Left",
-      "OnClick": {
-        "Hotkeys": [],
-        "Executable": "IG_ToggleCheckerboard",
-        "Argument": ""
-      }
-    },
-    {
       "Id": "Btn_FullScreen",
       "Image": "FullScreen",
       "Text": "Menu_MnuFullScreen",
@@ -303,20 +314,6 @@
       "OnClick": {
         "Hotkeys": [],
         "Executable": "IG_ToggleFullScreen",
-        "Argument": ""
-      }
-    },
-    {
-      "Id": "Btn_Slideshow",
-      "Image": "Slideshow",
-      "Text": "Menu_MnuSlideshow",
-      "ShowText": false,
-      "ConfigBinding": "EnableSlideshow",
-      "ConfigBindingValue": "True",
-      "Alignment": "Left",
-      "OnClick": {
-        "Hotkeys": [],
-        "Executable": "IG_ToggleSlideshow",
         "Argument": ""
       }
     },
@@ -342,6 +339,20 @@
         "Executable": "IG_Delete",
         "Argument": ""
       }
+    },
+    {
+      "Id": "Btn_OpenFile",
+      "Image": "OpenFile",
+      "Text": "Menu_MnuOpenFile",
+      "ShowText": false,
+      "ConfigBinding": "",
+      "ConfigBindingValue": "",
+      "Alignment": "Right",
+      "OnClick": {
+        "Hotkeys": [],
+        "Executable": "IG_OpenFile",
+        "Argument": ""
+      }
     }
   ],
   "EnablePrintWindowMaximized": false,
@@ -349,10 +360,10 @@
   "SlideshowTransitionDuration": 1000,
   "NavigationTransitionDuration": 300,
   "CacheMaxFiles": 10,
-  "BackgroundColor": "#070B1Aee",
+  "BackgroundColor": "#0C0C0Cee",
   "SlideshowTransition": "None",
   "NavigationTransition": "None",
-  "ViewerScrollbarMode": "AutoHide",
+  "ViewerScrollbarMode": "Never",
   "ImageInfoOverlayMode": "BorderlessAutoHide",
   "PrintWindowBounds": "200;200;1000;680"
 }
