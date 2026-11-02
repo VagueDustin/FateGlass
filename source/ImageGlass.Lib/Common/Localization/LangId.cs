@@ -770,6 +770,8 @@ public enum LangId
     Settings_DefaultPhotoViewer_Description,
     Settings_DefaultPhotoViewer_ScopePerMachine,
     Settings_DefaultPhotoViewer_ScopePerUser,
+    Settings_DefaultPhotoViewer_MacDescription,
+    Settings_DefaultPhotoViewer_MacConfirm,
     Settings_OpenDefaultAppsSetting,
 
     // File type associations > File formats

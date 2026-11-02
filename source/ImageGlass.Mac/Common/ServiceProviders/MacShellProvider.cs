@@ -20,6 +20,7 @@ using ImageGlass.Common;
 using ImageGlass.Common.ServiceProviders;
 using ImageGlass.Common.Types;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -29,6 +30,12 @@ namespace ImageGlass.Mac.Common.ServiceProviders;
 
 internal class MacShellProvider : PhDisposable, IShellProvider
 {
+    private const string PREVIEW_BUNDLE_ID = "com.apple.Preview";
+
+    // the app each type had before this one took it, so removing the default gives it back
+    private const string PREVIOUS_HANDLERS_FILE = "igdefaultviewer_previous.txt";
+
+
     public object? ForegroundShell { get; set; }
 
 
@@ -172,10 +179,59 @@ internal class MacShellProvider : PhDisposable, IShellProvider
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    /// <exception cref="NotSupportedException"></exception>
-    public Task<DefaultAppScope?> SetDefaultPhotoViewerAsync(string[] extensions, bool enable)
+    /// <exception cref="InvalidOperationException"></exception>
+    public async Task<DefaultAppScope?> SetDefaultPhotoViewerAsync(string[] extensions, bool enable)
     {
-        throw new NotSupportedException("IGE: This feature is not supported on macOS.");
+        var appId = MacLaunchServicesApi.GetMainBundleId()
+            ?? throw new InvalidOperationException("IGE: Start the app from its .app bundle to change the default photo viewer.");
+
+        // macOS confirms each type in a dialog, and one type often covers several extensions (.jpg, .jpeg, .jpe)
+        var typeIds = extensions
+            .Select(ext => MacLaunchServicesApi.GetTypeIdentifier(ext.TrimStart('.')))
+            .OfType<string>()
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+        var previousPath = BHelper.ConfigDir(PREVIOUS_HANDLERS_FILE);
+        var previous = ReadPreviousHandlers(previousPath);
+        var errors = new List<string>();
+
+        // one refused type must not stop the rest, nor lose the record of what the others had
+        foreach (var typeId in typeIds)
+        {
+            try
+            {
+                var current = MacLaunchServicesApi.GetDefaultHandler(typeId);
+                var isOurs = string.Equals(current, appId, StringComparison.OrdinalIgnoreCase);
+
+                if (enable)
+                {
+                    // setting a type that is already ours would still show the user a dialog
+                    if (isOurs) continue;
+
+                    if (current is not null) previous[typeId] = current;
+                    MacLaunchServicesApi.SetDefaultHandler(typeId, appId);
+                }
+                else if (isOurs)
+                {
+                    var target = FindHandlerToRestore(MacLaunchServicesApi.GetHandlers(typeId), previous.GetValueOrDefault(typeId), appId);
+                    if (target is not null) MacLaunchServicesApi.SetDefaultHandler(typeId, target);
+
+                    previous.Remove(typeId);
+                }
+            }
+            catch (Exception ex)
+            {
+                errors.Add(ex.Message);
+            }
+        }
+
+        await BHelper.WriteAllTextSharedAsync(previousPath,
+            string.Join('\n', previous.Select(p => $"{p.Key}={p.Value}"))).ConfigureAwait(false);
+
+        if (errors.Count > 0) throw new InvalidOperationException(string.Join(Environment.NewLine, errors));
+
+        return DefaultAppScope.CurrentUser;
     }
 
 
@@ -267,6 +323,39 @@ internal class MacShellProvider : PhDisposable, IShellProvider
 
 
     #region Private helpers
+
+    /// <summary>
+    /// Reads the app each type had before this app took it over, one <c>type=bundle id</c> per line.
+    /// </summary>
+    private static Dictionary<string, string> ReadPreviousHandlers(string filePath)
+    {
+        var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        if (!File.Exists(filePath)) return result;
+
+        using var reader = new StreamReader(BHelper.OpenReadShared(filePath));
+        while (reader.ReadLine() is { } line)
+        {
+            var parts = line.Split('=', 2, StringSplitOptions.TrimEntries);
+            if (parts.Length == 2 && parts[0].Length > 0 && parts[1].Length > 0) result[parts[0]] = parts[1];
+        }
+
+        return result;
+    }
+
+
+    /// <summary>
+    /// Picks the app a type goes back to: the one it had before, else Preview, else any other app that opens it.
+    /// </summary>
+    private static string? FindHandlerToRestore(string[] handlers, string? previous, string appId)
+    {
+        bool CanOpen(string? bundleId) => bundleId is not null && handlers.Contains(bundleId, StringComparer.OrdinalIgnoreCase);
+
+        if (CanOpen(previous)) return previous;
+        if (CanOpen(PREVIEW_BUNDLE_ID)) return PREVIEW_BUNDLE_ID;
+
+        return handlers.FirstOrDefault(h => !string.Equals(h, appId, StringComparison.OrdinalIgnoreCase));
+    }
+
 
     /// <summary>
     /// Executes an AppleScript expression via <c>osascript</c>.

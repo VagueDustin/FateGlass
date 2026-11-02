@@ -42,12 +42,13 @@
         </StackPanel>
 
 
-        <!--  Default photo viewer (Windows only)  -->
+        <!--  Default photo viewer (Windows and macOS)  -->
         <ui:PhTextBlock
             x:Name="PART_DefaultViewerHeading"
             Classes="group"
             IsVisible="{OnPlatform False,
                                    Windows=True,
+                                   macOS=True,
                                    x:TypeArguments=x:Boolean}"
             LangKey="Settings_DefaultPhotoViewer" />
         <StackPanel
@@ -55,17 +56,23 @@
             Margin="{DynamicResource SettingsGroupIndent}"
             IsVisible="{OnPlatform False,
                                    Windows=True,
+                                   macOS=True,
                                    x:TypeArguments=x:Boolean}"
             Spacing="10">
             <ui:PhTextBlock
+                x:Name="PART_DefaultViewerDesc"
                 LangKey="Settings_DefaultPhotoViewer_Description"
                 Opacity="0.75"
                 TextWrapping="Wrap" />
+            <!--  macOS forgets a deleted app's defaults by itself, so the cleanup warning is Windows only  -->
             <Border
                 Margin="0,0,0,4"
                 Padding="8"
                 Background="{DynamicResource IG_BackgroundWarningBrush}"
-                CornerRadius="{DynamicResource ControlCornerRadius}">
+                CornerRadius="{DynamicResource ControlCornerRadius}"
+                IsVisible="{OnPlatform True,
+                                       macOS=False,
+                                       x:TypeArguments=x:Boolean}">
                 <ui:PhTextBlock
                     x:Name="PART_LblSetViewerWarning"
                     LangKey="Settings_UnmanagedSettingReminder"
@@ -84,6 +91,9 @@
                 <ui:PhButton
                     x:Name="PART_OpenDefaultApps"
                     VerticalAlignment="Center"
+                    IsVisible="{OnPlatform True,
+                                           macOS=False,
+                                           x:TypeArguments=x:Boolean}"
                     Variant="Link" />
             </StackPanel>
         </StackPanel>

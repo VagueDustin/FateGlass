@@ -194,6 +194,9 @@ public partial class FileTypeAssociationsSettingsView : SettingsPageView
         // per-user vs per-machine registration, derived from the install location
         var scope = Core.ShellProvider?.GetDefaultViewerScope() ?? DefaultAppScope.CurrentUser;
 
+        // macOS has no Default apps page to finish the job in; it confirms each type itself
+        if (BHelper.OS == OSType.Mac) PART_DefaultViewerDesc.LangKey = LangId.Settings_DefaultPhotoViewer_MacDescription;
+
         // the Windows "Default apps" deep link key differs per scope; the app name must be URI-escaped
         var appQueryKey = scope == DefaultAppScope.LocalMachine ? "registeredAppMachine" : "registeredAppUser";
         var defaultAppsUri = $"ms-settings:defaultapps?{appQueryKey}={Uri.EscapeDataString(BHelper.AppName)}";

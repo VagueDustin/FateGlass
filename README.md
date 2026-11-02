@@ -4,7 +4,7 @@
 
 # FateGlass
 
-**A fast photo viewer for Windows, every feature switched on and nothing phoning home.**
+**A fast photo viewer for Windows and macOS, every feature switched on and nothing phoning home.**
 <br/>
 Every image you open, held in the light a moment longer.
 
@@ -15,6 +15,7 @@ Every image you open, held in the light a moment longer.
 [![Build installer workflow](https://img.shields.io/badge/Build-Installer-D4AF37?style=for-the-badge&logo=githubactions&logoColor=D4AF37&labelColor=070B1A)](../../actions/workflows/release-installer.yml)
 
 [![Windows 10 and 11 x64](https://img.shields.io/badge/Windows-10%20%7C%2011%20x64-283860?style=flat-square&labelColor=070B1A)](#install)
+[![macOS Apple silicon](https://img.shields.io/badge/macOS-Apple%20silicon-283860?style=flat-square&labelColor=070B1A)](#on-a-mac)
 [![.NET 10](https://img.shields.io/badge/.NET-10-283860?style=flat-square&labelColor=070B1A)](#build-from-source)
 [![Avalonia 12](https://img.shields.io/badge/Avalonia-12-283860?style=flat-square&labelColor=070B1A)](#how-it-is-built)
 [![13 themes](https://img.shields.io/badge/Themes-13-283860?style=flat-square&labelColor=070B1A)](#themes)
@@ -64,6 +65,27 @@ registrations and single-instance lock, so neither app touches the other.
 
 > **Windows SmartScreen.** The installer is not code signed, so Windows may show "Windows protected your PC" the
 > first time. Choose **More info > Run anyway**.
+
+### On a Mac
+
+There is no Mac download yet. Build FateGlass on the Mac that will run it (see [Build for macOS](#build-for-macos)):
+
+```bash
+bash source/__assets/mac/fateglass/build-fateglass.sh --install
+```
+
+That puts **FateGlass** in `/Applications`, alongside any ImageGlass for Mac, with its own app ID
+(`com.vaguedustin.fateglass`) and its settings in `~/Library/Application Support/FateGlass`. The build is signed ad
+hoc, which is all the Mac that built it needs.
+
+To make it the default viewer, open **Settings > File type associations** and choose **Register**. macOS asks you to
+confirm each file type that another app opens today, so you can keep that app for any of them; formats no other app
+declares (JFIF, APNG, JXR, CUR and the like) switch without asking. **Unregister** gives each type back to the app it
+had before. To take over only some formats, pass them on the command line instead:
+
+```bash
+/Applications/FateGlass.app/Contents/MacOS/FateGlass --ig-set-default-viewer ".jpg;.png;.heic"
+```
 
 ---
 
@@ -224,6 +246,23 @@ The MSI lands in `source/__artifacts/bundle/FateGlass_<version>_win-x64.msi`.
 
 Without `-Aot` the build is a regular self-contained .NET app: same features, slightly slower first start.
 
+### Build for macOS
+
+On an Apple silicon Mac with the .NET SDK 10.0 (`brew install --cask dotnet-sdk`) and the Xcode Command Line Tools
+(`xcode-select --install`):
+
+```bash
+bash source/__assets/mac/fateglass/build-fateglass.sh            # builds ~/Library/Caches/FateGlass-build/FateGlass.app
+bash source/__assets/mac/fateglass/build-fateglass.sh --install  # and copies it into /Applications
+```
+
+The app is put together outside the repository because iCloud Drive's Desktop & Documents sync tags any `.app` under
+`~/Documents`, and `codesign` refuses a tagged app. Set `FATEGLASS_APP_DIR` to build it somewhere else.
+
+It is always a Native AOT build, with the same themes, languages and `igconfig.default.json` as the Windows
+installer. The Mac build does not fold in live settings; that stays with `build-fateglass.ps1`. To sign for other
+Macs, set `SIGN_IDENTITY="Developer ID Application: …"` before running it (notarizing is a separate step).
+
 ### Run from source
 
 ```powershell
@@ -242,7 +281,12 @@ pwsh source/__assets/win/fateglass/make-themes.ps1      # all themes from the Fa
 pwsh source/__assets/win/fateglass/make-ext-icons.ps1   # the 88 file type icons from the app mark
 ```
 
-The app icon is `source/ImageGlass.Win32/fateglass-icon.svg`; the two `icon256.ico` files are rendered from it.
+```bash
+bash source/__assets/mac/fateglass/make-icon.sh          # FateGlass.icns, the macOS app icon (brew install librsvg)
+```
+
+The app icon is `source/ImageGlass.Win32/fateglass-icon.svg`; the two `icon256.ico` files are rendered from it. The
+macOS icon comes from `source/__assets/mac/fateglass/fateglass-icon-mac.svg`, the same mark on Apple's icon grid.
 
 ---
 
@@ -276,8 +320,10 @@ for the less common formats. The changes live on top of the upstream code so ups
 | --- | --- |
 | `source/ImageGlass.Lib` | The app: viewer, settings, themes, tools |
 | `source/ImageGlass.Win32` | The Windows executable (`FateGlass.exe`) and app icon |
+| `source/ImageGlass.Mac` | The macOS executable (`FateGlass`) |
 | `source/__assets/__app` | Shipped payload: themes, languages, file type icons, transitions |
 | `source/__assets/win/fateglass` | Installer (`FateGlass.wxs`), build and artwork scripts, default settings |
+| `source/__assets/mac/fateglass` | `FateGlass.app`: `Info.plist`, app icon, build and icon scripts |
 | `.github/workflows/release-installer.yml` | The release runner |
 
 Where the personal changes are, for future upstream merges:
@@ -290,6 +336,8 @@ Where the personal changes are, for future upstream merges:
 | Name, settings folder, single-instance lock | `BHelper.AppName`, `Core.AppInstance`, `Lang.Get` (renames language packs at lookup) |
 | Lock zoom toggle | `AppAPIProvider.IG_SetZoomMode` |
 | Default themes | `Const.DEFAULT_THEME`, `Const.DEFAULT_LIGHT_THEME` |
+| Mac executable name | `AssemblyName` in `ImageGlass.Mac/ImageGlass.Mac.csproj` (the bundle lives in `__assets/mac/fateglass`) |
+| Default viewer on macOS | `MacShellProvider.SetDefaultPhotoViewerAsync`, `MacLaunchServicesApi`, the macOS rows in `FileTypeAssociationsSettingsView.axaml` |
 
 ### Keeping up with ImageGlass
 

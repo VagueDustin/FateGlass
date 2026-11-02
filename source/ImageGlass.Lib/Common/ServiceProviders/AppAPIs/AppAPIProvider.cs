@@ -3609,10 +3609,14 @@ public partial class AppAPIProvider
             // null = the provider can't do it (virtualized Store MSIX); UI is hidden, so just stop
             if (scope is null) return;
 
-            // let the user know whether the change is per-machine (all users) or per-user
-            var scopeText = lang[scope == DefaultAppScope.LocalMachine
-                ? LangId.Settings_DefaultPhotoViewer_ScopePerMachine
-                : LangId.Settings_DefaultPhotoViewer_ScopePerUser];
+            // let the user know whether the change is per-machine (all users) or per-user;
+            // on macOS the change is always per-user and waits for the user's answer in its dialogs
+            var isMac = BHelper.OS == OSType.Mac;
+            var scopeText = lang[isMac
+                ? LangId.Settings_DefaultPhotoViewer_MacConfirm
+                : scope == DefaultAppScope.LocalMachine
+                    ? LangId.Settings_DefaultPhotoViewer_ScopePerMachine
+                    : LangId.Settings_DefaultPhotoViewer_ScopePerUser];
 
             await ModalWindow.ShowInfoAsync(owner, new ModalWindowOptions
             {
@@ -3623,7 +3627,7 @@ public partial class AppAPIProvider
                     ? LangId.Menu_MnuSetDefaultPhotoViewer_Success
                     : LangId.Menu_MnuRemoveDefaultPhotoViewer_Success],
                 Description = scopeText,
-                Note = enable ? lang[LangId.Settings_UnmanagedSettingReminder] : null,
+                Note = enable && !isMac ? lang[LangId.Settings_UnmanagedSettingReminder] : null,
                 NoteStyle = InfoBarSeverity.Warning,
             });
         }
