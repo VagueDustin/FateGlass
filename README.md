@@ -42,7 +42,7 @@ browses folders quickly, and stays out of the way of the picture. This build tur
 project reserves for paid licenses, removes the update check and its usage statistics, and ships with a navy and
 gold look, 12 more themes and its owner's settings as the defaults.
 
-This repository is private and the build is for personal use.
+FateGlass is shared as is, under the same GPLv3 license as ImageGlass.
 
 ---
 
