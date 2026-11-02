@@ -10,9 +10,9 @@ Every image you open, held in the light a moment longer.
 
 <br/>
 
-[![Download the installer](https://img.shields.io/badge/Download-Installer-D4AF37?style=for-the-badge&logo=windows&logoColor=D4AF37&labelColor=070B1A)](../../releases/latest)
+[![Download for Windows and macOS](https://img.shields.io/badge/Download-Windows%20%7C%20macOS-D4AF37?style=for-the-badge&logo=github&logoColor=D4AF37&labelColor=070B1A)](../../releases/latest)
 [![All releases](https://img.shields.io/badge/All-Releases-D4AF37?style=for-the-badge&logo=github&logoColor=D4AF37&labelColor=070B1A)](../../releases)
-[![Build installer workflow](https://img.shields.io/badge/Build-Installer-D4AF37?style=for-the-badge&logo=githubactions&logoColor=D4AF37&labelColor=070B1A)](../../actions/workflows/release-installer.yml)
+[![Build installers workflow](https://img.shields.io/badge/Build-Installers-D4AF37?style=for-the-badge&logo=githubactions&logoColor=D4AF37&labelColor=070B1A)](../../actions/workflows/release-installer.yml)
 
 [![Windows 10 and 11 x64](https://img.shields.io/badge/Windows-10%20%7C%2011%20x64-283860?style=flat-square&labelColor=070B1A)](#install)
 [![macOS Apple silicon](https://img.shields.io/badge/macOS-Apple%20silicon-283860?style=flat-square&labelColor=070B1A)](#on-a-mac)
@@ -68,15 +68,29 @@ registrations and single-instance lock, so neither app touches the other.
 
 ### On a Mac
 
-There is no Mac download yet. Build FateGlass on the Mac that will run it (see [Build for macOS](#build-for-macos)):
+FateGlass for Mac runs on Apple silicon (M1 and later).
+
+1. Open the [latest release](../../releases/latest) and download `FateGlass_<version>_osx-arm64.dmg`.
+2. Open it and drag **FateGlass** onto **Applications**.
+3. Start FateGlass from Applications. The first time, macOS blocks it, because the app is not signed by an Apple
+   developer account: choose **Done**, then open **System Settings > Privacy & Security**, scroll down to the message
+   about FateGlass and choose **Open Anyway**. Later starts open normally.
+
+   The same thing in Terminal, if you prefer:
+
+   ```bash
+   xattr -dr com.apple.quarantine /Applications/FateGlass.app
+   ```
+
+FateGlass sits alongside any ImageGlass for Mac, with its own app ID (`com.vaguedustin.fateglass`) and its settings in
+`~/Library/Application Support/FateGlass`. The Mac version keeps the toolbar and gallery in full screen by default.
+To install a newer release, drag it onto Applications again and replace the old copy.
+
+To build it yourself instead (see [Build for macOS](#build-for-macos)):
 
 ```bash
 bash source/__assets/mac/fateglass/build-fateglass.sh --install
 ```
-
-That puts **FateGlass** in `/Applications`, alongside any ImageGlass for Mac, with its own app ID
-(`com.vaguedustin.fateglass`) and its settings in `~/Library/Application Support/FateGlass`. The build is signed ad
-hoc, which is all the Mac that built it needs.
 
 To make it the default viewer, open **Settings > File type associations** and choose **Register**. macOS asks you to
 confirm each file type that another app opens today, so you can keep that app for any of them; formats no other app
@@ -256,11 +270,18 @@ bash source/__assets/mac/fateglass/build-fateglass.sh            # builds ~/Libr
 bash source/__assets/mac/fateglass/build-fateglass.sh --install  # and copies it into /Applications
 ```
 
+| Option | Effect |
+| --- | --- |
+| `--install` | Copies the app into `/Applications` and registers it with macOS. |
+| `--dmg` | Also makes the download, `source/__artifacts/bundle/FateGlass_<version>_osx-arm64.dmg`. |
+| `--version 10.0.7` | Stamps a version on the app instead of the one in `Directory.Build.props`. |
+
 The app is put together outside the repository because iCloud Drive's Desktop & Documents sync tags any `.app` under
 `~/Documents`, and `codesign` refuses a tagged app. Set `FATEGLASS_APP_DIR` to build it somewhere else.
 
 It is always a Native AOT build, with the same themes, languages and `igconfig.default.json` as the Windows
-installer. The Mac build does not fold in live settings; that stays with `build-fateglass.ps1`. To sign for other
+installer, except that it turns on the toolbar and gallery in full screen. The Mac build does not fold in live
+settings; that stays with `build-fateglass.ps1`. To sign for other
 Macs, set `SIGN_IDENTITY="Developer ID Application: …"` before running it (notarizing is a separate step).
 
 ### Run from source
@@ -292,19 +313,20 @@ macOS icon comes from `source/__assets/mac/fateglass/fateglass-icon-mac.svg`, th
 
 ## Make a release
 
-The [Build installer](../../actions/workflows/release-installer.yml) workflow does the packaging.
+The [Build installers](../../actions/workflows/release-installer.yml) workflow does the packaging.
 
 1. Commit and push to `main`.
 2. Create a release on GitHub with a tag such as `v10.0.7` and publish it.
-3. The workflow builds a Native AOT installer on a Windows runner and attaches
-   `FateGlass_10.0.7_win-x64.msi` to that release, usually within 15 minutes.
+3. The workflow builds both downloads side by side and attaches them to that release, usually within 15 minutes:
+   `FateGlass_10.0.7_win-x64.msi` from a Windows runner and `FateGlass_10.0.7_osx-arm64.dmg` from an Apple silicon
+   macOS runner, both Native AOT.
 
 A tag that looks like a version (`v10.0.7` or `v10.0.7.1200`) becomes the app and installer version. Any other tag
 keeps the version in `source/Directory.Build.props`. Installers upgrade each other in place, including two builds
 with the same version.
 
-To try a build without a release, open the workflow on the **Actions** tab and choose **Run workflow**. The MSI is
-kept as a workflow artifact for 90 days.
+To try a build without a release, open the workflow on the **Actions** tab and choose **Run workflow**. The MSI and
+the disk image are kept as workflow artifacts for 90 days.
 
 Before tagging, run a local build once so `igconfig.default.json` picks up your latest settings, and commit it.
 
